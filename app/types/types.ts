@@ -5,3 +5,10 @@ export interface BBSData {
     content: string;
     createdAt: Date;
 }
+
+export interface DogData {
+    id: number;
+    name: string;
+    breed: string;
+    userId: string;
+}
