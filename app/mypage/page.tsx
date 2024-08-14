@@ -15,7 +15,6 @@ async function getDogData() {
 
 export default async function Mypage (){
   const dogData = await getDogData();
-  console.log(dogData);
 
   return (
     <div className='flex justify-center items-center mt-32'>

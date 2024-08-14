@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { Label } from "@/components/ui/label";
 import { UserResponse } from "@supabase/supabase-js";
+import { redirect } from "next/dist/server/api-utils";
 
 const Header = () => {
   const [user, setUser] = useState<UserResponse | null>(null);
@@ -26,14 +27,10 @@ const Header = () => {
 
   const handleLogout = async () => {
     const supabase = await createClient();
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Logout error:', error.message);
-    } else {
-      console.log('User logged out');
-      setUser(null); 
-    }
-  };
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = "/auth/login";
+  }
 
 
   return (
@@ -65,24 +62,25 @@ const Header = () => {
           </nav>
         </div>
       </div>
-      <div className="mr-6 flex items-center">
-      <HoverCard>
-        <HoverCardTrigger asChild>
-          <Avatar>
-            <AvatarImage src="/image.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </HoverCardTrigger>
-        <HoverCardContent className="w-48 bg-white mr-4">
-          <div className="text-sm">
-            <Label>Username:</Label>
-            <p>{user?.data?.user?.email}</p>
-          </div>
-          <Button onClick={handleLogout}>ログアウト</Button>
-        </HoverCardContent>
-      </HoverCard>
-        
-      </div>
+      {user?.data.user !== null && (
+        <div className="mr-6 flex items-center">
+          <HoverCard>
+            <HoverCardTrigger asChild>
+              <Avatar>
+                <AvatarImage src="/image.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </HoverCardTrigger>
+            <HoverCardContent className="w-48 bg-white mr-4">
+              <div className="text-sm">
+                <Label>Username:</Label>
+                <p>{user?.data?.user?.email}</p>
+              </div>
+              <Button onClick={handleLogout}>ログアウト</Button>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
+      )}
     </div>
   );
 };

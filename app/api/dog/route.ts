@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 export async function GET(req: Request) {
   const supabase = await createClient();
   const data  = await supabase.auth.getUser();
+  console.log(data);
 
   const dogData = await prisma.dog.findMany({
     where: {
