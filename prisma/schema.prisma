@@ -35,3 +35,12 @@ model Dog {
   breed String
   userId String
 }
+
+model Food {
+  id Int @id @default(autoincrement())
+  name String
+  size String
+  materials String[]
+  locality String
+  price Int
+}
