@@ -5,10 +5,17 @@ import { z } from "zod";
 import { formSchema } from "../mypage/create/page";
 import { createClient } from "@/utils/supabase/server";
 
+
+
 export const postDog = async ({
   name,
   breed,
-  }: z.infer<typeof formSchema> )=> {
+  photoUrl,
+}: {
+  name: string,
+  breed: string,
+  photoUrl: string,
+})=> {
 
   const supabase = await createClient();
   const data  = await supabase.auth.getUser();
@@ -17,8 +24,8 @@ export const postDog = async ({
     data: {
       name: name,
       breed: breed,
-      userId: data?.data?.user?.id,
-      photoUrl: "", 
+      userId: data?.data?.user?.id ?? '',
+      photoUrl: photoUrl, 
     }
   })
   

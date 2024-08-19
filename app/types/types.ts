@@ -11,4 +11,5 @@ export interface DogData {
     name: string;
     breed: string;
     userId: string;
+    photoUrl: string;
 }
